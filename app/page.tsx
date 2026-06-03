@@ -1,35 +1,41 @@
 import { createSupabaseServerClient } from "@/lib/supabase";
+import { Course } from "@/types/course";
+import { BentoGrid } from "@/components/dashboard/BentoGrid";
+import { Sidebar } from "@/components/dashboard/Sidebar";
 
 export default async function Home() {
   const supabase = createSupabaseServerClient();
 
-  const { data, error } = await supabase.from("courses").select("*");
+  const { data, error } = await supabase
+    .from("courses")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (error) {
     return (
-      <main className="min-h-screen bg-black p-10 text-white">
-        Error fetching data
+      <main className="min-h-screen bg-black pl-0 md:pl-20 xl:pl-64 text-white pb-24 md:pb-0">
+        <Sidebar />
+        <div className="p-6 md:p-10 flex h-[80vh] items-center justify-center">
+          <div className="rounded-3xl border border-red-500/20 bg-red-500/10 p-8 text-center max-w-md">
+            <h1 className="text-2xl font-bold text-red-400">Error fetching data</h1>
+            <p className="mt-4 text-red-200/80">
+              Please check your Supabase URL, publishable key, table name, and RLS policies.
+            </p>
+          </div>
+        </div>
       </main>
     );
   }
 
+  const courses = data as Course[];
+
   return (
-    <main className="min-h-screen bg-black p-10 text-white">
-      <h1 className="mb-8 text-4xl font-bold">Learning Dashboard</h1>
-
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-        {data.map((course) => (
-          <article
-            key={course.id}
-            className="rounded-3xl border border-white/10 bg-zinc-900 p-6"
-          >
-            <h2 className="text-xl font-semibold">{course.title}</h2>
-
-            <p className="mt-4 text-zinc-400">
-              Progress: {course.progress}%
-            </p>
-          </article>
-        ))}
+    <main className="min-h-screen bg-black text-white pb-24 md:pb-0">
+      <Sidebar />
+      <div className="pl-0 md:pl-20 xl:pl-64">
+        <div className="p-6 md:p-10">
+          <BentoGrid courses={courses} />
+        </div>
       </div>
     </main>
   );
