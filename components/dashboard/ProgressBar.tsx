@@ -2,15 +2,29 @@
 
 import { motion } from "framer-motion";
 
-export function ProgressBar({ progress }: { progress: number }) {
+interface ProgressBarProps {
+  progress: number;
+}
+
+export function ProgressBar({ progress }: ProgressBarProps) {
   return (
-    <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-800">
-      <motion.div
-        className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
-        initial={{ width: 0 }}
-        animate={{ width: `${progress}%` }}
-        transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.2 }}
-      />
+    <div className="w-full" aria-label={`Progress: ${progress}%`}>
+      {/* Track */}
+      <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/70 shadow-inner">
+        {/* Animated fill */}
+        <motion.div
+          key={progress}
+          className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500"
+          initial={{ width: 0 }}
+          animate={{ width: `${progress}%` }}
+          transition={{
+            type: "spring" as const,
+            stiffness: 260,
+            damping: 24,
+            delay: 0.15,
+          }}
+        />
+      </div>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import { createSupabaseServerClient } from "@/lib/supabase";
 import { Course } from "@/types/course";
-import { BentoGrid } from "@/components/dashboard/BentoGrid";
-import { Sidebar } from "@/components/dashboard/Sidebar";
+import { DashboardShell } from "@/components/dashboard/DashboardShell";
 
 export default async function Home() {
   const supabase = createSupabaseServerClient();
@@ -13,30 +12,21 @@ export default async function Home() {
 
   if (error) {
     return (
-      <main className="min-h-screen bg-black pl-0 md:pl-20 xl:pl-64 text-white pb-24 md:pb-0">
-        <Sidebar />
-        <div className="p-6 md:p-10 flex h-[80vh] items-center justify-center">
-          <div className="rounded-3xl border border-red-500/20 bg-red-500/10 p-8 text-center max-w-md">
-            <h1 className="text-2xl font-bold text-red-400">Error fetching data</h1>
-            <p className="mt-4 text-red-200/80">
-              Please check your Supabase URL, publishable key, table name, and RLS policies.
-            </p>
+      <div className="min-h-screen bg-gradient-to-br from-purple-100 via-blue-50 to-pink-100 flex items-center justify-center p-6">
+        <div className="max-w-md rounded-3xl border border-red-200/50 bg-white/30 p-8 text-center shadow-xl backdrop-blur-xl">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-100/70">
+            <span className="text-2xl">⚠️</span>
           </div>
+          <h1 className="text-2xl font-bold text-red-600">Connection Error</h1>
+          <p className="mt-3 text-sm text-slate-600">
+            Please check your Supabase URL, anon key, table name, and RLS policies.
+          </p>
         </div>
-      </main>
+      </div>
     );
   }
 
   const courses = data as Course[];
 
-  return (
-    <main className="min-h-screen bg-black text-white pb-24 md:pb-0">
-      <Sidebar />
-      <div className="pl-0 md:pl-20 xl:pl-64">
-        <div className="p-6 md:p-10">
-          <BentoGrid courses={courses} />
-        </div>
-      </div>
-    </main>
-  );
+  return <DashboardShell courses={courses} />;
 }

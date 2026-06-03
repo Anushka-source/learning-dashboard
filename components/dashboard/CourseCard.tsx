@@ -6,39 +6,71 @@ import { ProgressBar } from "./ProgressBar";
 import { motion, Variants } from "framer-motion";
 
 const DynamicIcon = ({ name }: { name: string }) => {
-  const IconComponent = (LucideIcons as any)[name] || LucideIcons.Book;
-  return <IconComponent className="text-zinc-300" size={24} />;
+  const IconComponent =
+    (LucideIcons as Record<string, any>)[name] ?? LucideIcons.Book;
+  return <IconComponent className="text-indigo-600" size={22} />;
 };
 
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 20 } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring" as const, stiffness: 300, damping: 20 },
+  },
 };
 
 export function CourseCard({ course }: { course: Course }) {
+  const isComplete = course.progress === 100;
+
   return (
     <motion.article
       variants={itemVariants}
-      className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-white/5 bg-zinc-900/50 p-6 backdrop-blur-sm transition-transform duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
+      className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-white/30 bg-white/20 p-6 shadow-xl backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl"
     >
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-indigo-500/0 via-purple-500/0 to-pink-500/0 opacity-0 transition-opacity duration-500 group-hover:from-indigo-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 group-hover:opacity-100" />
-      
+      {/* Hover glow */}
+      <div className="absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-indigo-500/0 to-violet-500/0 opacity-0 transition-opacity duration-300 group-hover:from-indigo-500/10 group-hover:to-violet-500/10 group-hover:opacity-100" />
+
+      {/* Icon + status badge */}
       <div className="flex items-start justify-between">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 group-hover:bg-white/10 transition-colors">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/40 bg-white/40 shadow-inner backdrop-blur-sm transition-colors group-hover:bg-white/60">
           <DynamicIcon name={course.icon_name} />
         </div>
-        <span className="rounded-full bg-white/5 px-3 py-1 text-xs font-medium text-zinc-400">
-          In Progress
+        <span
+          className={`rounded-full border px-3 py-1 text-xs font-semibold backdrop-blur-sm ${
+            isComplete
+              ? "border-emerald-200/50 bg-emerald-50/60 text-emerald-600"
+              : "border-indigo-200/50 bg-indigo-50/60 text-indigo-600"
+          }`}
+        >
+          {isComplete ? "✓ Completed" : "In Progress"}
         </span>
       </div>
 
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold text-white tracking-tight">{course.title}</h2>
-        <div className="mt-6 flex items-center justify-between text-sm text-zinc-400 mb-2">
-          <span>Completion</span>
-          <span className="font-medium text-white">{course.progress}%</span>
+      {/* Title */}
+      <div className="mt-5">
+        <h2 className="text-lg font-bold tracking-tight text-slate-800">
+          {course.title}
+        </h2>
+
+        {/* Percentage label row */}
+        <div className="mt-5 flex items-center justify-between">
+          <span className="text-xs font-medium uppercase tracking-widest text-slate-400">
+            Completion
+          </span>
+          <span
+            className={`text-sm font-extrabold ${
+              isComplete ? "text-emerald-600" : "text-indigo-600"
+            }`}
+          >
+            {course.progress}%
+          </span>
         </div>
-        <ProgressBar progress={course.progress} />
+
+        {/* Animated progress bar */}
+        <div className="mt-2">
+          <ProgressBar progress={course.progress} />
+        </div>
       </div>
     </motion.article>
   );

@@ -2,43 +2,53 @@
 
 import { motion } from "framer-motion";
 import { Home, BookOpen, Settings, BarChart } from "lucide-react";
-import { useState } from "react";
+import { ActiveView } from "./DashboardShell";
 
-const navItems = [
+interface SidebarProps {
+  activeView: ActiveView;
+  onNavigate: (view: ActiveView) => void;
+}
+
+const navItems: { name: ActiveView; icon: React.ElementType }[] = [
   { name: "Home", icon: Home },
   { name: "Courses", icon: BookOpen },
   { name: "Analytics", icon: BarChart },
   { name: "Settings", icon: Settings },
 ];
 
-export function Sidebar() {
-  const [active, setActive] = useState("Home");
-
+export function Sidebar({ activeView, onNavigate }: SidebarProps) {
   return (
     <>
       {/* Mobile Bottom Nav */}
-      <nav className="fixed bottom-0 z-50 w-full border-t border-white/10 bg-black/80 p-4 backdrop-blur-md md:hidden">
-        <ul className="flex justify-around">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = active === item.name;
+      <nav
+        aria-label="Mobile navigation"
+        className="fixed bottom-0 z-50 w-full border-t border-white/30 bg-white/20 p-2 shadow-2xl backdrop-blur-xl md:hidden"
+      >
+        <ul role="list" className="flex justify-around">
+          {navItems.map(({ name, icon: Icon }) => {
+            const isActive = activeView === name;
             return (
-              <li key={item.name} className="relative">
+              <li key={name}>
                 <button
-                  onClick={() => setActive(item.name)}
-                  className={`flex flex-col items-center gap-1 p-2 transition-colors ${
-                    isActive ? "text-white" : "text-zinc-500 hover:text-zinc-300"
+                  type="button"
+                  aria-label={name}
+                  aria-current={isActive ? "page" : undefined}
+                  onClick={() => onNavigate(name)}
+                  className={`relative flex cursor-pointer flex-col items-center gap-1 rounded-xl px-4 py-2 transition-colors duration-200 ${
+                    isActive
+                      ? "text-indigo-600"
+                      : "text-slate-400 hover:text-slate-600"
                   }`}
                 >
-                  <Icon size={24} />
-                  <span className="text-[10px]">{item.name}</span>
                   {isActive && (
-                    <motion.div
-                      layoutId="mobile-active"
-                      className="absolute inset-0 -z-10 rounded-xl bg-white/10"
+                    <motion.span
+                      layoutId="mobile-active-highlight"
+                      className="absolute inset-0 -z-10 rounded-xl border border-white/50 bg-white/50 shadow-sm"
                       transition={{ type: "spring", stiffness: 300, damping: 20 }}
                     />
                   )}
+                  <Icon size={20} aria-hidden="true" />
+                  <span className="text-[10px] font-semibold">{name}</span>
                 </button>
               </li>
             );
@@ -46,41 +56,64 @@ export function Sidebar() {
         </ul>
       </nav>
 
-      {/* Tablet/Desktop Sidebar */}
-      <nav className="hidden h-screen flex-col border-r border-white/10 bg-black/50 p-4 backdrop-blur-md md:flex md:w-20 xl:w-64 fixed left-0 top-0 z-50">
+      {/* Tablet / Desktop Sidebar */}
+      <nav
+        aria-label="Desktop navigation"
+        className="fixed left-0 top-0 z-50 hidden h-screen flex-col border-r border-white/30 bg-white/15 p-4 shadow-2xl backdrop-blur-xl md:flex md:w-20 xl:w-64"
+      >
+        {/* Logo */}
         <div className="mb-10 mt-4 flex items-center justify-center xl:justify-start xl:px-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 text-white font-bold text-xl">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 text-xl font-bold text-white shadow-lg">
             L
           </div>
-          <span className="hidden xl:block ml-3 font-bold text-xl tracking-wider text-white">LEARN</span>
+          <span className="ml-3 hidden bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-xl font-bold tracking-wider text-transparent xl:block">
+            LEARN
+          </span>
         </div>
 
-        <ul className="flex flex-col gap-2">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = active === item.name;
+        {/* Nav items */}
+        <ul role="list" className="flex flex-col gap-1">
+          {navItems.map(({ name, icon: Icon }) => {
+            const isActive = activeView === name;
             return (
-              <li key={item.name}>
+              <li key={name}>
                 <button
-                  onClick={() => setActive(item.name)}
-                  className={`relative flex w-full items-center gap-4 rounded-xl px-4 py-3 transition-colors ${
-                    isActive ? "text-white" : "text-zinc-500 hover:text-zinc-300"
-                  } md:justify-center xl:justify-start`}
+                  type="button"
+                  aria-label={name}
+                  aria-current={isActive ? "page" : undefined}
+                  onClick={() => onNavigate(name)}
+                  className={`relative flex w-full cursor-pointer items-center gap-4 rounded-xl px-4 py-3 transition-colors duration-200 md:justify-center xl:justify-start ${
+                    isActive
+                      ? "text-indigo-600"
+                      : "text-slate-400 hover:text-slate-600"
+                  }`}
                 >
-                  <Icon size={24} />
-                  <span className="hidden xl:block text-sm font-medium">{item.name}</span>
                   {isActive && (
-                    <motion.div
-                      layoutId="desktop-active"
-                      className="absolute inset-0 -z-10 rounded-xl bg-white/10"
+                    <motion.span
+                      layoutId="desktop-active-highlight"
+                      className="absolute inset-0 -z-10 rounded-xl border border-white/50 bg-white/60 shadow-sm"
                       transition={{ type: "spring", stiffness: 300, damping: 20 }}
                     />
                   )}
+                  <Icon size={22} aria-hidden="true" />
+                  <span className="hidden text-sm font-semibold xl:block">
+                    {name}
+                  </span>
                 </button>
               </li>
             );
           })}
         </ul>
+
+        {/* Footer hint */}
+        <div className="mt-auto hidden xl:block px-4 pb-4">
+          <div className="rounded-2xl border border-white/30 bg-white/30 p-4 text-center backdrop-blur-sm">
+            <p className="text-xs font-semibold text-indigo-600">🎯 Goal</p>
+            <p className="mt-1 text-xs text-slate-500">
+              Complete 3 courses this month
+            </p>
+          </div>
+        </div>
       </nav>
     </>
   );
