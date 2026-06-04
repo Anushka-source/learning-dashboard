@@ -116,13 +116,26 @@ const PIE_COLORS = ["#94a3b8", "#ec4899", "#0ea5e9"];
 /* ─── Main component ──────────────────────────────────────────── */
 export function AnalyticsView({ courses }: { courses: Course[] }) {
   const totalCourses = courses.length;
-  const avgProgress =
+  const averageProgress =
     totalCourses > 0
       ? Math.round(courses.reduce((sum, c) => sum + c.progress, 0) / totalCourses)
       : 0;
-  const completed = courses.filter((c) => c.progress === 100).length;
-  const inProgress = courses.filter((c) => c.progress > 0 && c.progress < 100).length;
-  const notStarted = courses.filter((c) => c.progress === 0).length;
+  const completedCourses = courses.filter((c) => c.progress >= 100).length;
+  const inProgressCourses = courses.filter((c) => c.progress < 100).length;
+
+  const highestProgressCourse =
+    courses.length > 0
+      ? courses.reduce((prev, current) =>
+          prev.progress > current.progress ? prev : current
+        )
+      : null;
+
+  const lowestProgressCourse =
+    courses.length > 0
+      ? courses.reduce((prev, current) =>
+          prev.progress < current.progress ? prev : current
+        )
+      : null;
 
   const barData = courses.map((c) => ({
     name: c.title.length > 14 ? c.title.slice(0, 14) + "…" : c.title,
@@ -130,9 +143,8 @@ export function AnalyticsView({ courses }: { courses: Course[] }) {
   }));
 
   const pieData = [
-    { name: "Not Started", value: notStarted },
-    { name: "In Progress", value: inProgress },
-    { name: "Completed", value: completed },
+    { name: "In Progress", value: inProgressCourses },
+    { name: "Completed", value: completedCourses },
   ].filter((d) => d.value > 0);
 
   const stats = [
@@ -141,28 +153,28 @@ export function AnalyticsView({ courses }: { courses: Course[] }) {
       label: "Total Courses",
       value: totalCourses,
       iconBg: "bg-pink-500/10",
-      sub: `${completed} completed`,
+      sub: `${completedCourses} completed`,
     },
     {
       icon: <TrendingUp size={22} className="text-sky-500" />,
       label: "Avg Progress",
-      value: `${avgProgress}%`,
+      value: `${averageProgress}%`,
       iconBg: "bg-sky-500/10",
-      sub: `${inProgress} in progress`,
+      sub: `${inProgressCourses} in progress`,
     },
     {
       icon: <Flame size={22} className="text-blue-500" />,
-      label: "Learning Streak",
-      value: "12 Days",
+      label: "Highest Progress",
+      value: highestProgressCourse ? `${highestProgressCourse.progress}%` : "N/A",
       iconBg: "bg-blue-500/10",
-      sub: "Personal best!",
+      sub: highestProgressCourse ? (highestProgressCourse.title.length > 16 ? highestProgressCourse.title.slice(0, 16) + "..." : highestProgressCourse.title) : "No courses",
     },
     {
       icon: <Clock size={22} className="text-pink-400" />,
-      label: "Hours Learned",
-      value: "48 hrs",
+      label: "Lowest Progress",
+      value: lowestProgressCourse ? `${lowestProgressCourse.progress}%` : "N/A",
       iconBg: "bg-pink-400/10",
-      sub: "This month",
+      sub: lowestProgressCourse ? (lowestProgressCourse.title.length > 16 ? lowestProgressCourse.title.slice(0, 16) + "..." : lowestProgressCourse.title) : "No courses",
     },
   ];
 
