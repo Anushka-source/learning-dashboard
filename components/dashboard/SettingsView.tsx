@@ -3,6 +3,7 @@
 import { motion, Variants } from "framer-motion";
 import { useState } from "react";
 import { User, Palette, Bell, Moon, Sun, Monitor, ChevronRight } from "lucide-react";
+import { Theme } from "./DashboardShell";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -14,7 +15,6 @@ const itemVariants: Variants = {
   show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 20 } },
 };
 
-type Theme = "Light" | "Dark" | "System";
 
 function Toggle({ checked, onChange }: { checked: boolean; onChange: () => void }) {
   return (
@@ -49,8 +49,12 @@ function GlassSection({ children, label }: { children: React.ReactNode; label: s
   );
 }
 
-export function SettingsView() {
-  const [theme, setTheme] = useState<Theme>("System");
+interface SettingsViewProps {
+  selectedTheme: Theme;
+  setSelectedTheme: (theme: Theme) => void;
+}
+
+export function SettingsView({ selectedTheme, setSelectedTheme }: SettingsViewProps) {
   const [notifications, setNotifications] = useState({
     streakReminders: true,
     courseUpdates: true,
@@ -125,10 +129,10 @@ export function SettingsView() {
             <button
               key={label}
               type="button"
-              onClick={() => setTheme(label)}
+              onClick={() => setSelectedTheme(label)}
               className={`flex flex-col items-center gap-2 rounded-2xl border p-4 text-sm font-semibold transition-all duration-200 ${
-                theme === label
-                  ? "border-pink-400/60 bg-gradient-to-br from-pink-500 to-sky-400 text-white shadow-lg"
+                selectedTheme === label
+                  ? "border-pink-400/60 bg-gradient-to-br from-pink-500 to-sky-400 text-white shadow-lg scale-[1.03]"
                   : "border-white/40 bg-white/30 backdrop-blur-md text-slate-600 hover:bg-white/50 hover:text-slate-800 hover:shadow-md"
               }`}
             >
