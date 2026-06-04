@@ -11,7 +11,6 @@ const itemVariants: Variants = {
   },
 };
 
-// Fixed activity data — no Math.random to avoid hydration errors
 const activityLevels = [
   "opacity-10", "opacity-30", "opacity-60", "opacity-10", "opacity-100", "opacity-30", "opacity-60",
   "opacity-60", "opacity-10", "opacity-30", "opacity-100", "opacity-30", "opacity-10", "opacity-60",
@@ -49,7 +48,7 @@ export function ActivityTile() {
         {activityLevels.map((opacityClass, i) => (
           <div
             key={i}
-            className={`aspect-square rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500 ${opacityClass} cursor-default transition-opacity duration-200 hover:opacity-100`}
+            className={`aspect-square rounded-lg bg-gradient-to-br from-pink-400 to-sky-400 ${opacityClass} cursor-default transition-opacity duration-200 hover:opacity-100`}
             title={`Day ${i + 1}`}
           />
         ))}

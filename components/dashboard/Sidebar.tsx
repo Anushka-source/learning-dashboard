@@ -22,7 +22,7 @@ export function Sidebar({ activeView, onNavigate }: SidebarProps) {
       {/* Mobile Bottom Nav */}
       <nav
         aria-label="Mobile navigation"
-        className="fixed bottom-0 z-50 w-full border-t border-white/30 bg-white/20 p-2 shadow-2xl backdrop-blur-xl md:hidden"
+        className="fixed bottom-0 z-50 w-full border-t border-white/30 bg-white/15 p-2 shadow-2xl backdrop-blur-xl md:hidden"
       >
         <ul role="list" className="flex justify-around">
           {navItems.map(({ name, icon: Icon }) => {
@@ -36,14 +36,14 @@ export function Sidebar({ activeView, onNavigate }: SidebarProps) {
                   onClick={() => onNavigate(name)}
                   className={`relative flex cursor-pointer flex-col items-center gap-1 rounded-xl px-4 py-2 transition-colors duration-200 ${
                     isActive
-                      ? "text-indigo-600"
-                      : "text-slate-400 hover:text-slate-600"
+                      ? "text-pink-600"
+                      : "text-slate-500 hover:text-slate-800"
                   }`}
                 >
                   {isActive && (
                     <motion.span
                       layoutId="mobile-active-highlight"
-                      className="absolute inset-0 -z-10 rounded-xl border border-white/50 bg-white/50 shadow-sm"
+                      className="absolute inset-0 -z-10 rounded-xl border border-white/40 bg-white/40 shadow-sm backdrop-blur-md"
                       transition={{ type: "spring", stiffness: 300, damping: 20 }}
                     />
                   )}
@@ -63,10 +63,10 @@ export function Sidebar({ activeView, onNavigate }: SidebarProps) {
       >
         {/* Logo */}
         <div className="mb-10 mt-4 flex items-center justify-center xl:justify-start xl:px-4">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 text-xl font-bold text-white shadow-lg">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-sky-400 text-xl font-bold text-white shadow-lg">
             L
           </div>
-          <span className="ml-3 hidden bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-xl font-bold tracking-wider text-transparent xl:block">
+          <span className="ml-3 hidden bg-gradient-to-r from-pink-500 to-sky-400 bg-clip-text text-xl font-bold tracking-wider text-transparent xl:block">
             LEARN
           </span>
         </div>
@@ -84,14 +84,14 @@ export function Sidebar({ activeView, onNavigate }: SidebarProps) {
                   onClick={() => onNavigate(name)}
                   className={`relative flex w-full cursor-pointer items-center gap-4 rounded-xl px-4 py-3 transition-colors duration-200 md:justify-center xl:justify-start ${
                     isActive
-                      ? "text-indigo-600"
-                      : "text-slate-400 hover:text-slate-600"
+                      ? "text-pink-600"
+                      : "text-slate-500 hover:text-slate-800"
                   }`}
                 >
                   {isActive && (
                     <motion.span
                       layoutId="desktop-active-highlight"
-                      className="absolute inset-0 -z-10 rounded-xl border border-white/50 bg-white/60 shadow-sm"
+                      className="absolute inset-0 -z-10 rounded-xl border border-white/40 bg-white/40 shadow-sm backdrop-blur-md"
                       transition={{ type: "spring", stiffness: 300, damping: 20 }}
                     />
                   )}
@@ -107,9 +107,9 @@ export function Sidebar({ activeView, onNavigate }: SidebarProps) {
 
         {/* Footer hint */}
         <div className="mt-auto hidden xl:block px-4 pb-4">
-          <div className="rounded-2xl border border-white/30 bg-white/30 p-4 text-center backdrop-blur-sm">
-            <p className="text-xs font-semibold text-indigo-600">🎯 Goal</p>
-            <p className="mt-1 text-xs text-slate-500">
+          <div className="rounded-2xl border border-white/40 bg-white/30 backdrop-blur-md p-4 text-center">
+            <p className="text-xs font-semibold text-pink-600">🎯 Goal</p>
+            <p className="mt-1 text-xs text-slate-600">
               Complete 3 courses this month
             </p>
           </div>

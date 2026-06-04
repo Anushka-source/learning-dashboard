@@ -33,10 +33,10 @@ export function CoursesView({ courses }: { courses: Course[] }) {
       ) : (
         <motion.div
           variants={itemVariants}
-          className="rounded-3xl border border-white/30 bg-white/20 p-12 text-center shadow-xl backdrop-blur-xl"
+          className="rounded-3xl border border-white/30 bg-white/20 backdrop-blur-xl p-12 text-center shadow-xl"
         >
-          <p className="text-lg font-semibold text-slate-600">No courses yet.</p>
-          <p className="mt-2 text-sm text-slate-400">
+          <p className="text-lg font-semibold text-slate-800">No courses yet.</p>
+          <p className="mt-2 text-sm text-slate-500">
             Add some courses to your Supabase table to see them here.
           </p>
         </motion.div>

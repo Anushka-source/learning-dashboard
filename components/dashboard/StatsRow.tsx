@@ -49,28 +49,28 @@ export function StatsRow({ courses }: { courses: Course[] }) {
 
   const stats = [
     {
-      icon: <BookOpen size={22} className="text-indigo-600" />,
+      icon: <BookOpen size={22} className="text-pink-500" />,
       label: "Total Courses",
       value: totalCourses,
-      iconBg: "bg-indigo-100/70",
+      iconBg: "bg-pink-500/10",
     },
     {
-      icon: <TrendingUp size={22} className="text-violet-600" />,
+      icon: <TrendingUp size={22} className="text-sky-500" />,
       label: "Avg Progress",
       value: `${avgProgress}%`,
-      iconBg: "bg-violet-100/70",
+      iconBg: "bg-sky-500/10",
     },
     {
-      icon: <Flame size={22} className="text-orange-500" />,
+      icon: <Flame size={22} className="text-blue-500" />,
       label: "Learning Streak",
       value: "12 Days",
-      iconBg: "bg-orange-100/70",
+      iconBg: "bg-blue-500/10",
     },
     {
-      icon: <Clock size={22} className="text-pink-600" />,
+      icon: <Clock size={22} className="text-pink-400" />,
       label: "Hours Learned",
       value: "48 hrs",
-      iconBg: "bg-pink-100/70",
+      iconBg: "bg-pink-400/10",
     },
   ];
 

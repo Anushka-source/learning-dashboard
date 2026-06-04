@@ -42,7 +42,7 @@ export function BentoGrid({ courses }: { courses: Course[] }) {
       {/* Course cards */}
       {courses.length > 0 && (
         <section aria-label="Courses">
-          <h2 className="mb-4 text-xl font-bold text-slate-700">My Courses</h2>
+          <h2 className="mb-4 text-xl font-bold text-slate-800">My Courses</h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
             {courses.map((course) => (
               <CourseCard key={course.id} course={course} />
@@ -54,12 +54,12 @@ export function BentoGrid({ courses }: { courses: Course[] }) {
       {courses.length === 0 && (
         <motion.div
           variants={containerVariants}
-          className="rounded-3xl border border-white/30 bg-white/20 p-12 text-center shadow-xl backdrop-blur-xl"
+          className="rounded-3xl border border-white/30 bg-white/20 backdrop-blur-xl p-12 text-center shadow-xl"
         >
-          <p className="text-lg font-semibold text-slate-600">
+          <p className="text-lg font-semibold text-slate-800">
             No courses found yet.
           </p>
-          <p className="mt-2 text-sm text-slate-400">
+          <p className="mt-2 text-sm text-slate-500">
             Add some courses to your Supabase table to get started.
           </p>
         </motion.div>

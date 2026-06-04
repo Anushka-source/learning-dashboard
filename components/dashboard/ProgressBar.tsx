@@ -10,11 +10,11 @@ export function ProgressBar({ progress }: ProgressBarProps) {
   return (
     <div className="w-full" aria-label={`Progress: ${progress}%`}>
       {/* Track */}
-      <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/70 shadow-inner">
+      <div className="h-2.5 w-full overflow-hidden rounded-full bg-white/40 shadow-inner">
         {/* Animated fill */}
         <motion.div
           key={progress}
-          className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500"
+          className="h-full rounded-full bg-gradient-to-r from-pink-500 to-sky-400"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
           transition={{

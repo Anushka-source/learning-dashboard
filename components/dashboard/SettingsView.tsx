@@ -23,8 +23,8 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: () => void 
       role="switch"
       aria-checked={checked}
       onClick={onChange}
-      className={`relative inline-flex h-6 w-12 shrink-0 cursor-pointer items-center rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 ${
-        checked ? "bg-indigo-500" : "bg-slate-300"
+      className={`relative inline-flex h-6 w-12 shrink-0 cursor-pointer items-center rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2 ${
+        checked ? "bg-gradient-to-r from-pink-500 to-sky-400" : "bg-slate-200"
       }`}
     >
       <span
@@ -33,6 +33,19 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: () => void 
         }`}
       />
     </button>
+  );
+}
+
+/* Glassmorphism section card */
+function GlassSection({ children, label }: { children: React.ReactNode; label: string }) {
+  return (
+    <motion.section
+      variants={itemVariants}
+      aria-label={label}
+      className="rounded-3xl border border-white/30 bg-white/20 backdrop-blur-xl p-6 shadow-xl"
+    >
+      {children}
+    </motion.section>
   );
 }
 
@@ -72,45 +85,37 @@ export function SettingsView() {
       </motion.div>
 
       {/* Profile Card */}
-      <motion.section
-        variants={itemVariants}
-        aria-label="Profile"
-        className="rounded-3xl border border-white/30 bg-white/20 p-6 shadow-xl backdrop-blur-xl"
-      >
+      <GlassSection label="Profile">
         <div className="mb-5 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-100/70">
-            <User size={20} className="text-indigo-600" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-pink-500/10">
+            <User size={20} className="text-pink-500" />
           </div>
           <h2 className="text-lg font-bold text-slate-800">Profile</h2>
         </div>
 
         <div className="flex items-center gap-5">
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-500 text-2xl font-bold text-white shadow-lg">
+          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-pink-500 to-sky-400 text-2xl font-bold text-white shadow-lg">
             A
           </div>
           <div className="flex-1">
             <p className="text-lg font-bold text-slate-800">Anushka</p>
             <p className="text-sm text-slate-500">anushka@example.com</p>
-            <p className="mt-1 text-xs font-medium text-indigo-600">12 Day Streak 🔥</p>
+            <p className="mt-1 text-xs font-medium text-pink-600">12 Day Streak 🔥</p>
           </div>
           <button
             type="button"
-            className="flex items-center gap-1 rounded-xl border border-white/40 bg-white/40 px-4 py-2 text-sm font-semibold text-slate-600 backdrop-blur-sm transition-all hover:bg-white/60 hover:shadow-md"
+            className="flex items-center gap-1 rounded-xl border border-white/40 bg-white/40 backdrop-blur-md px-4 py-2 text-sm font-semibold text-slate-600 transition-all hover:bg-white/60 hover:text-slate-800 hover:shadow-md"
           >
             Edit <ChevronRight size={14} />
           </button>
         </div>
-      </motion.section>
+      </GlassSection>
 
       {/* Theme Card */}
-      <motion.section
-        variants={itemVariants}
-        aria-label="Theme preference"
-        className="rounded-3xl border border-white/30 bg-white/20 p-6 shadow-xl backdrop-blur-xl"
-      >
+      <GlassSection label="Theme preference">
         <div className="mb-5 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-violet-100/70">
-            <Palette size={20} className="text-violet-600" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-500/10">
+            <Palette size={20} className="text-sky-500" />
           </div>
           <h2 className="text-lg font-bold text-slate-800">Theme Preference</h2>
         </div>
@@ -123,8 +128,8 @@ export function SettingsView() {
               onClick={() => setTheme(label)}
               className={`flex flex-col items-center gap-2 rounded-2xl border p-4 text-sm font-semibold transition-all duration-200 ${
                 theme === label
-                  ? "border-indigo-400 bg-indigo-500 text-white shadow-lg"
-                  : "border-white/40 bg-white/30 text-slate-600 hover:bg-white/50 hover:shadow-md"
+                  ? "border-pink-400/60 bg-gradient-to-br from-pink-500 to-sky-400 text-white shadow-lg"
+                  : "border-white/40 bg-white/30 backdrop-blur-md text-slate-600 hover:bg-white/50 hover:text-slate-800 hover:shadow-md"
               }`}
             >
               {icon}
@@ -132,27 +137,23 @@ export function SettingsView() {
             </button>
           ))}
         </div>
-      </motion.section>
+      </GlassSection>
 
       {/* Notifications Card */}
-      <motion.section
-        variants={itemVariants}
-        aria-label="Notification settings"
-        className="rounded-3xl border border-white/30 bg-white/20 p-6 shadow-xl backdrop-blur-xl"
-      >
+      <GlassSection label="Notification settings">
         <div className="mb-5 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-pink-100/70">
-            <Bell size={20} className="text-pink-600" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-500/10">
+            <Bell size={20} className="text-blue-500" />
           </div>
           <h2 className="text-lg font-bold text-slate-800">Notifications</h2>
         </div>
 
-        <ul className="flex flex-col divide-y divide-white/20">
+        <ul className="flex flex-col divide-y divide-white/30">
           {notifItems.map(({ key, label, desc }) => (
             <li key={key} className="flex items-center justify-between gap-4 py-4 first:pt-0 last:pb-0">
               <div>
-                <p className="text-sm font-semibold text-slate-700">{label}</p>
-                <p className="text-xs text-slate-400">{desc}</p>
+                <p className="text-sm font-semibold text-slate-800">{label}</p>
+                <p className="text-xs text-slate-500">{desc}</p>
               </div>
               <Toggle
                 checked={notifications[key]}
@@ -163,7 +164,7 @@ export function SettingsView() {
             </li>
           ))}
         </ul>
-      </motion.section>
+      </GlassSection>
     </motion.div>
   );
 }

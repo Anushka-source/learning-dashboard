@@ -30,11 +30,11 @@ export function DashboardShell({ courses }: { courses: Course[] }) {
   const [activeView, setActiveView] = useState<ActiveView>("Home");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-blue-50 to-pink-100">
+    <div className="min-h-screen w-full relative">
       <BackgroundBlobs />
       <Sidebar activeView={activeView} onNavigate={setActiveView} />
-      <main className="pl-0 pb-24 md:pb-0 md:pl-20 xl:pl-64">
-        <div className="p-6 md:p-8 xl:p-10">
+      <main className="pl-0 pb-24 md:pb-0 md:pl-20 xl:pl-64 min-h-screen">
+        <div className="p-6 md:p-8 xl:p-10 relative">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeView}
